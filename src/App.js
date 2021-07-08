@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import MovieTable from './components/MovieTable';
+import Navbar from './components/Navbar';
+import { getMovies } from './services/fakeMovieService'
 import './App.css';
 
 function App() {
+
+  const [movies, setMovies] = useState(getMovies());
+
+  const deleteMovie = id => {
+    const newResult = movies.filter(movie => movie._id !== id)
+    setMovies(newResult)
+    console.log(id)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar count={movies.length} />
+      <MovieTable movies={movies} onDelete={deleteMovie} />
     </div>
   );
 }
